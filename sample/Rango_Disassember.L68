@@ -1,0 +1,87 @@
+00000000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.13.01
+Created On: 11/19/2013 11:06:41 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : 68K Disassember
+00000000                             3  * Written by : Team Rango
+00000000                             4  * Date       : 11/14/2013
+00000000                             5  * Description: Write an inverse assember that will
+00000000                             6  *           convert a memory image of instructions and
+00000000                             7  *           data back to 680000 assembly language and
+00000000                             8  *           output the disassembled code to the display.
+00000000                             9  *-----------------------------------------------------------
+Line 10 ERROR: Invalid opcode
+00000000                            10  OPT     CRE             ;bring data memory into Symbol Table
+Line 11 ERROR: Invalid opcode
+00000000                            11  ORG    $1000
+00000000                            12  START:                  ; first instruction of program
+00000000                            13  
+00000000                            14  * Variable used in code
+00000000  =00002000                 15  startAddr   EQU     $00002000           ;require user to input the memory location lower bound
+00000000  =000FFFFF                 16  endAddr     EQU     $000FFFFF           ;require user to input the memory location upper bound
+00000000  =000FFFFE                 17  badStart    EQU     $000FFFFE           ;Invalid starting Address if GTE 000FFFFE
+00000000  =00000024                 18  dollar      EQU     $24                 ;ASCII $
+00000000  =0000000A                 19  LF          EQU     $0A                 ;ASCII value for Line feed
+00000000  =0000000D                 20  CR          EQU     $0D                 ;ASCII value for Carriage return
+00000000                            21  
+00000000                            22  * Put variables and constants here
+Line 23 ERROR: Invalid syntax
+00000000                            23  LEA WELCOM_MSG, A1      ;LOAD WELCOME MASSAGE
+Line 24 ERROR: Invalid syntax
+00000000                            24  MOVE.B  #14,D0
+Line 25 ERROR: Invalid opcode
+00000000                            25  TRAP    #15
+00000000                            26  
+Line 27 ERROR: Undefined symbol
+00000000= 2D 2D 2D 2D 2D 2D ...     27  WELCOME_MSG     DC.B    '------------------------------------------------------------',CR,CL
+Line 28 ERROR: Undefined symbol
+0000003E= 2D 2D 2D 2D 2D 2D ...     28                  DC.B    '---------------============================---------------',CR,CL
+Line 29 ERROR: Undefined symbol
+0000007A= 2D 2D 2D 2D 2D 2D ...     29                  DC.B    '---------------=                            =--------------',CR,CL
+Line 30 ERROR: Undefined symbol
+000000B7= 2D 2D 2D 2D 2D 2D ...     30                  DC.B    '---------------=      ==================     =-------------',CR,CL
+Line 31 ERROR: Undefined symbol
+000000F4= 2D 2D 2D 2D 2D 2D ...     31                  DC.B    '---------------=      =                 =     =------------',CR,CL
+Line 32 ERROR: Undefined symbol
+00000131= 2D 2D 2D 2D 2D 2D ...     32                  DC.B    '---------------=      =                  =     =-----------',CR,CL
+Line 33 ERROR: Undefined symbol
+0000016E= 2D 2D 2D 2D 2D 2D ...     33                  DC.B    '---------------=      =                   =     =-----------',CR,CL
+Line 34 ERROR: Undefined symbol
+000001AC= 2D 2D 2D 2D 2D 2D ...     34                  DC.B    '---------------=      =                   =     =-----------',CR,CL
+Line 35 ERROR: Undefined symbol
+000001EA= 2D 2D 2D 2D 2D 2D ...     35                  DC.B    '---------------=      =                   =     =-----------',CR,CL
+Line 36 ERROR: Undefined symbol
+00000228= 2D 2D 2D 2D 2D 2D ...     36                  DC.B    '---------------=      =                  =     =------------',CR,CL
+Line 37 ERROR: Undefined symbol
+00000266= 2D 2D 2D 2D 2D 2D ...     37                  DC.B    '---------------=      ==================     =-------------',CR,CL
+Line 38 ERROR: Undefined symbol
+000002A3= 2D 2D 2D 2D 2D 2D ...     38                  DC.B    '---------------=                             =--------------',CR,CL
+Line 39 ERROR: Undefined symbol
+000002E1= 2D 2D 2D 2D 2D 2D ...     39                  DC.B    '---------------=      ================     =----------------',CR,CL
+Line 40 ERROR: Undefined symbol
+0000031F= 2D 2D 2D 2D 2D 2D ...     40                  DC.B    '---------------=      =               =     =---------------',CR,CL
+Line 41 ERROR: Undefined symbol
+0000035D= 2D 2D 2D 2D 2D 2D ...     41                  DC.B    '---------------=      =                =     =--------------',CR,CL
+Line 42 ERROR: Undefined symbol
+0000039B= 2D 2D 2D 2D 2D 2D ...     42                  DC.B    '---------------=      =                 =     =-------------',CR,CL
+Line 43 ERROR: Undefined symbol
+000003D9= 2D 2D 2D 2D 2D 2D ...     43                  DC.B    '---------------=      =                  =     =------------',CR,CL
+00000417                            44                  
+00000417                            45      END    START        ; last line of source
+
+22 errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BADSTART            FFFFE
+CR                  D
+DOLLAR              24
+ENDADDR             FFFFF
+LF                  A
+START               0
+STARTADDR           2000
+WELCOME_MSG         0

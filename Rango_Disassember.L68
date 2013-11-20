@@ -1,0 +1,85 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.13.01
+Created On: 11/20/2013 12:52:17 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : 68K Disassember
+00000000                             3  * Written by : Team Rango
+00000000                             4  * Date       : 11/14/2013
+00000000                             5  * Description: Write an inverse assember that will
+00000000                             6  *           convert a memory image of instructions and
+00000000                             7  *           data back to 680000 assembly language and
+00000000                             8  *           output the disassembled code to the display.
+00000000                             9  *-----------------------------------------------------------
+00000000                            10    
+00001000                            11              ORG    $1000
+00001000                            12  START:                  ; first instruction of program
+00001000                            13  
+00001000                            14  * Variable used in code
+00001000  =0000A000                 15  startAddr   EQU     $0000A000           ;require user to input the memory location lower bound
+00001000  =000FFFFF                 16  endAddr     EQU     $000FFFFF           ;require user to input the memory location upper bound
+00001000  =00000024                 17  dollar      EQU     $24                 ;ASCII $
+00001000  =0000000A                 18  LF          EQU     $0A                 ;ASCII value for Line feed
+00001000  =0000000D                 19  CR          EQU     $0D                 ;ASCII value for Carriage return
+00001000                            20  
+00001000                            21  *-----------Code for output-----------
+00001000  43F9 00001052             22  LOOP        LEA         MESSAGE,A1
+00001006  103C 000E                 23              MOVE.B      #14,D0
+0000100A  4E4F                      24              TRAP        #15              ;Display Message
+0000100C                            25             
+0000100C                            26  *-----------Code for input------------
+Line 27 ERROR: Symbol defined more than once
+0000100C  7202                      27  START       MOVE.L  #2, D1               ;
+0000100E  4E4F                      28              TRAP    #15                  ;Read string from keyboard
+00001010                            29                   
+00001010                            30  
+00001010                            31              *MOVE.B      #2,D0           Read String
+00001010                            32              *TRAP        #15             Read a number from keyboard into D1.l
+00001010                            33              *CMP.L       #0,D1           Compares D1 to number 0
+00001010                            34              *BEQ         DONE            Branch to DONE if they are equal
+00001010                            35             
+00001010  B2BC 00000010             36              CMP.L       #$10,D1          Compares D1 to 0
+00001016  6D00 0026                 37              BLT         INVALID         BTL branches if D1 is less than 0
+0000101A  B2BC 00000020             38              CMP.L       #$20,D1          Compares D1 to 1
+00001020  6E00 001C                 39              BGT         INVALID         BGT branches if D1 is greater than 9
+00001024                            40   
+00001024                            41  *--figure out what the number actually is--            
+00001024                            42              
+00001024  43F9 00001030             43              LEA     DISPLAY, A1
+0000102A  103C 000E                 44              MOVE.B  #14, D0
+0000102E  4E4F                      45              TRAP    #15            
+00001030                            46              
+00001030= 59 6F 75 20 65 6E ...     47  DISPLAY     DC.B    'You enter....', 0
+0000103E                            48             
+0000103E  43F9 00001094             49  INVALID     LEA         INV,A1
+00001044  103C 000E                 50              MOVE.B      #14,D0
+00001048  4E4F                      51              TRAP        #15
+0000104A  60B4                      52              BRA         LOOP
+0000104C                            53             
+0000104C  103C 0009                 54  DONE        MOVE.B      #9,D0
+00001050  4E4F                      55              TRAP        #15             Halt simulator
+00001052                            56                         
+00001052= 45 6E 74 65 72 20 ...     57  MESSAGE     DC.B        'Enter a number between 0000A000 and 000FFFFF, Enter 0 to finsih: ',0
+00001094= 54 68 61 74 20 69 ...     58  INV         DC.B        'That is not between 0000A000 and 000FFFFF.',CR,LF,0
+000010C1                            59   
+000010C1                            60               END         START
+
+1 error detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+CR                  D
+DISPLAY             1030
+DOLLAR              24
+DONE                104C
+ENDADDR             FFFFF
+INV                 1094
+INVALID             103E
+LF                  A
+LOOP                1000
+MESSAGE             1052
+START               1000
+STARTADDR           A000

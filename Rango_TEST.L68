@@ -1,0 +1,32 @@
+0000A000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.13.01
+Created On: 11/19/2013 11:14:50 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : 68K TEST
+00000000                             3  * Written by : Team Rango
+00000000                             4  * Date       : 11/14/2013
+00000000                             5  * Description: Write an inverse assember that will
+00000000                             6  *           convert a memory image of instructions and
+00000000                             7  *           data back to 680000 assembly language and
+00000000                             8  *           output the disassembled code to the display.
+00000000                             9  *-----------------------------------------------------------
+0000A000                            10              ORG    $A000
+0000A000                            11  START:                  ; first instruction of program
+0000A000                            12  
+0000A000                            13  * Put variables and constants here
+0000A000  103C 000E                 14              MOVE.B  #14,D0
+0000A004  3078 1000                 15              MOVEA.W $1000, A0
+0000A008                            16  
+0000A008                            17  
+0000A008                            18                  
+0000A008                            19      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               A000
