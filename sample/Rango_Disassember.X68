@@ -7,44 +7,78 @@
 *           data back to 680000 assembly language and
 *           output the disassembled code to the display.
 *-----------------------------------------------------------
-OPT     CRE             ;bring data memory into Symbol Table
-ORG    $1000
+  
+            ORG    $1000
 START:                  ; first instruction of program
 
 * Variable used in code
-startAddr   EQU     $00002000           ;require user to input the memory location lower bound
+startAddr   EQU     $0000A000           ;require user to input the memory location lower bound
 endAddr     EQU     $000FFFFF           ;require user to input the memory location upper bound
-badStart    EQU     $000FFFFE           ;Invalid starting Address if GTE 000FFFFE
-dollar      EQU     $24                 ;ASCII $
-LF          EQU     $0A                 ;ASCII value for Line feed
-CR          EQU     $0D                 ;ASCII value for Carriage return
+CR          EQU     $0D
+LF          EQU     $0A 
 
-* Put variables and constants here
-LEA WELCOM_MSG, A1      ;LOAD WELCOME MASSAGE
-MOVE.B  #14,D0
-TRAP    #15
+*-----------WELCOME MESSAGE-----------
+            LEA         WELCOME_MSG,A1 *LOAD WELCOME_MSG TO A1
+            MOVE.B      #14,D0         
+            TRAP        #15            *OUTPUT THE WELCOME_MSG             
+           
+*----------INPUT THE STARTING ADDRESSS-------------------------          
+            LEA         START_PROMPT1,A1 *LOAD WELCOME_MSG TO A1
+            MOVE.B      #14,D0         
+            TRAP        #15              *OUTPUT THE WELCOME_MSG 
+            
+            	* Get the input from the user
+            LEA	    INPUT, A1	* LOAD INPUT TO THE POINTER A1
+	        MOVE.B	#02, D0	    * ALLOW TO READ INPUT
+            TRAP	#15		    
+        			* A1 stores a pointer to the beginning of the info.
+        			* D1 stores length
 
-WELCOME_MSG     DC.B    '------------------------------------------------------------',CR,CL
-                DC.B    '---------------============================---------------',CR,CL
-                DC.B    '---------------=                            =--------------',CR,CL
-                DC.B    '---------------=      ==================     =-------------',CR,CL
-                DC.B    '---------------=      =                 =     =------------',CR,CL
-                DC.B    '---------------=      =                  =     =-----------',CR,CL
-                DC.B    '---------------=      =                   =     =-----------',CR,CL
-                DC.B    '---------------=      =                   =     =-----------',CR,CL
-                DC.B    '---------------=      =                   =     =-----------',CR,CL
-                DC.B    '---------------=      =                  =     =------------',CR,CL
-                DC.B    '---------------=      ==================     =-------------',CR,CL
-                DC.B    '---------------=                             =--------------',CR,CL
-                DC.B    '---------------=      ================     =----------------',CR,CL
-                DC.B    '---------------=      =               =     =---------------',CR,CL
-                DC.B    '---------------=      =                =     =--------------',CR,CL
-                DC.B    '---------------=      =                 =     =-------------',CR,CL
-                DC.B    '---------------=      =                  =     =------------',CR,CL
-                
-    END    START        ; last line of source
+            JSR	    ASCII_CONVERTER	*CONVERT THE INPUT TO HEX AND STORE IN D3  
+*----------INPUT THE ENDING ADDRESSS-------------------------          
+            LEA         START_PROMPT1,A1 *LOAD WELCOME_MSG TO A1
+            MOVE.B      #14,D0         
+            TRAP        #15              *OUTPUT THE WELCOME_MSG 
+            
+            	* Get the input from the user
+            LEA	    INPUT, A1	* LOAD INPUT TO THE POINTER A1
+	        MOVE.B	#02, D0	    * ALLOW TO READ INPUT
+            TRAP	#15		    
+        			* A1 stores a pointer to the beginning of the info.
+        			* D1 stores length
 
-*~Font name~Courier New~
-*~Font size~10~
-*~Tab type~0~
-*~Tab size~4~
+            JSR	    ASCII_CONVERTER	*CONVERT THE INPUT TO HEX AND STORE IN D3  
+            
+*-----------ASCII CONVERT MACHINE----------------------------------
+
+ASCII_CONVERTER
+
+WELCOME_MSG     DC.B    '------------------------------------------------------------',CR,LF
+                DC.B    '---------------============================---------------',CR,LF
+                DC.B    '---------------=                            =--------------',CR,LF
+                DC.B    '---------------=      ==================     =-------------',CR,LF
+                DC.B    '---------------=      =                 =     =------------',CR,LF
+                DC.B    '---------------=      =                  =     =-----------',CR,LF
+                DC.B    '---------------=      =                   =     =-----------',CR,LF
+                DC.B    '---------------=      =                   =     =-----------',CR,LF
+                DC.B    '---------------=      =                   =     =-----------',CR,LF
+                DC.B    '---------------=      =                  =     =------------',CR,LF
+                DC.B    '---------------=      ==================     =-------------',CR,LF
+                DC.B    '---------------=                             =--------------',CR,LF
+                DC.B    '---------------=      ================     =----------------',CR,LF
+                DC.B    '---------------=      =               =     =---------------',CR,LF
+                DC.B    '---------------=      =                =     =--------------',CR,LF
+                DC.B    '---------------=      =                 =     =-------------',CR,LF
+                DC.B    '---------------=      =                  =     =------------',CR,LF 
+                DC.B    '-------------WELCOME TO 68K FINAL PROJECT-------------------',CR,LF,$0
+                DC.B    '',$0
+START_PROMPT1	DC.B    'PLEASE INPUT THE STARTING ADDRESS GREATER THAN $0000A000: ',$0  
+END_PROMPT2	    DC.B	'PLEASE INPUT THE ENDING ADDRESS LESS THAN $000FFFFF: ',$0
+CONTINUE_PRO	DC.B	'TAP ENTER KEY TO CONTINUE... ',$0 
+PRO_DONE    	DC.B	'DONE! THANKS FOR RUNING THIS PROGRAM',$0    
+
+INPUT           DS.L    2    *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
+    
+    END         START
+
+
