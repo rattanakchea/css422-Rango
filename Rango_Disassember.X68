@@ -33,6 +33,7 @@ START_INPUT
 	        MOVE.B	#02, D0	    * ALLOW TO READ INPUT
             TRAP	#15		    
             JSR	    ASCII_CONVERTER	*CONVERT THE INPUT TO HEX AND STORE IN D2  
+            MOVEA.L D3,A0           *STORE STARTING ADDRESS AT A1
 *----------INPUT THE ENDING ADDRESSS-------------------------          
 END_INPUT            
             LEA         END_PROMPT,A1 *LOAD WELCOME_MSG TO A1
@@ -44,6 +45,10 @@ END_INPUT
             TRAP	#15	
             MOVEA.W #$10,A6   *ID TO RECOGNIZE THIS IS THE ENDING ADDRESS INPUT	    
             JSR	    ASCII_CONVERTER	*CONVERT THE INPUT TO HEX AND STORE IN D2  
+            MOVEA.L D3,A1           *STORE STARTING ADDRESS AT A1
+
+*-----------DISASSEMBLY CODE ---------------------------------------
+
             
             STOP    #$2700 *STOP THE PROGRAM
 *-----------ASCII CONVERT MACHINE----------------------------------
@@ -59,11 +64,10 @@ ASCII_CONVERTER
 	        BGT		LEN_ERROR       * THE LENGTH IS GREATER THAN 8, BRANCH TO ERROR
 	        CMP.B	#0, D1			* COMPARE TO MAKE SURE THE INPUT LENGTH GREATER THAN 0
 	        BLE	    LEN_ERROR	    * THE LENGTH EQUAL 0, BRANCH TO ERROR
-	        SUBQ.B	#1,D1		    * Subtract 1 from the counter (zero based)
 
 *-----------USE THE LENGTH OF USER INPUT IN D1 AS A COUNTER FOR THIS LOOP---------
 ASCII_CONVERTER_LOOP	*COMPARE EACH BYTE OF INPUT TO DEFINE IT AS 0-9 OR NOT         
-	        *ROL.L	#4, D3			* shift the bits left by 4
+	        ROL 	#$4, D3			* shift one byte to the left to reserve next elements
 	        MOVE.B	(A1)+, D0		* MOVE THE BYTE FROM INPUT TO D0
 	        CMP.B	#$39, D0		* ASCII CODE (0-9) = (30-39), COMPARE IT TO 39
 	        BGT	    LETTER	        * BIGGER THAN 39, IT MAYBE A LETTER, BRANCH TO  
@@ -140,8 +144,10 @@ PRO_DONE    	DC.B	'DONE! THANKS FOR RUNING THIS PROGRAM',$0
 LENGTH_ER       DC.B    'THE SIZE OF MEMORY LOCATION IS OUT OF RANGE',CR,LF,$0
 LETTER_ER       DC.B    'INPUT CONTAINS INVALID ELEMENTS',CR,LF,$0
 
-INPUT           DS.L    2    *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
-    
+INPUT           DS.L    32   *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
+BAD_DATA        DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR UNDEFINED DATAS
+GOOD_DATA       DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR PASSED DATAS   
+   
     END         START
 
 
