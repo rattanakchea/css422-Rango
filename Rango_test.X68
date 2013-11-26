@@ -86,6 +86,8 @@ START
     MOVEM.W (A7)+,D0-D5/D7/A0-A6
     MOVEM.W D0-D5/D7/A0-A6,-(A7)    
     
+<<<<<<< HEAD
+=======
          
 *----AND, ORI, EOR, EORI, NOT, CMP, CMPA, CMPI----
     ANDI    #%10000111,D7
@@ -95,6 +97,13 @@ START
     ANDI.L  #$F0,(A2)
     ANDI    #$F0,(A2)
     ANDI    #$1234,(A2)
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+=======
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+=======
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
 
 *----ORI---------
     ORI.B #%00000011,(A0)+
@@ -143,6 +152,7 @@ START
     CMPI.W     #1110,(A6)  
     CMPI       #$2000,D1 
     
+<<<<<<< HEAD
     *MOVE.L      #%101, D0
     ASL.B       #1, D0
     ASL.W       #1, D0
@@ -199,6 +209,41 @@ START
 test 	RTS 
     
 someLabel
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+*---ADD-----------------------------------------------
+	*---ADD.B
+    ADD.B  $48,D2
+    ADD.B  #$AA,D1
+    ADD.B  D1,(A6)+
+    ADD.B  D0,(A2)
+    ADD.B  D0,-(A0)
+    ADD.B  #$40,D2
+    ADD.B  D0, $E111
+    ADD.B  D0, $E1234560	
+
+*---ADD-----------------------------------------------
+	*---ADD.W
+	ADD.W  #101,A1
+    ADD.W  $48,D2
+    ADD.W  #$AA,D1
+    ADD.W  D1,(A6)+
+    ADD.W  D0,(A2)
+    ADD.W  D0,-(A0)
+    ADD.W  (A1), A2
+    ADD.W  (A1)+,A2
+    ADD.W  -(A1),A2
+    ADD.W  #$40,D2
+    ADD.W  D0,A1
+    ADD.W  D0, $E111
+    ADD.W  D0, $E1234560
+=======
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+=======
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+>>>>>>> b9f735588fbc9f3c3c2cfc77fb59cf4b5aeb045f
 
      END           START
 
@@ -206,3 +251,8 @@ someLabel
 
 
 
+
+*~Font name~Courier New~
+*~Font size~10~
+*~Tab type~0~
+*~Tab size~4~

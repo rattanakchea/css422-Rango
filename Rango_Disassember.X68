@@ -147,6 +147,183 @@ LETTER_ER       DC.B    'INPUT CONTAINS INVALID ELEMENTS',CR,LF,$0
 INPUT           DS.L    32   *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
 BAD_DATA        DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR UNDEFINED DATAS
 GOOD_DATA       DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR PASSED DATAS   
+
+*=================jump tables for opcodes for the first 4 bits===============
+OPCODE_JMPTABLE
+	JMP		code0000	*bit manipulation
+	JMP		code0001	*Move Byte
+	JMP		code0010	*Move Long
+	JMP		code0011	*Move Word
+	JMP		code0100	*Miscellaneous
+	JMP		code0101	*ADDQ/SUBQ
+	JMP		code0110	*BSR, BRA, Bcc
+	JMP		code0111	*MOVEQ
+	JMP		code1000	*OR
+	JMP		code1001	*SUB
+	JMP		code1010	*Unassigned
+	JMP		code1011	*CMP/EOR
+	JMP		code1100	*AND/MUL/
+	JMP		code1101	*ADD/ADDA
+	JMP		code1110	*Shift/Rotate
+	JMP		code1111	*Reserved
+	
+	
+*===================== 29 OP-CODES  ==========================================
+str_MOVE	DC.B	'MOVE'
+str_MOVEA	DC.B	'MOVEA'
+str_MOVEM	DC.B	'MOVEM'
+str_ADD		DC.B	'ADD'
+str_ADDA	DC.B	'ADDA'
+str_ADDQ	DC.B	'ADDQ'
+str_SUB		DC.B	'SUB'
+str_SUBA	DC.B	'SUBA'
+str_SUBI	DC.B	'SUBI'
+str_MULU	DC.B	'MULU'
+str_DIVS	DC.B	'DIVS'
+str_LEA		DC.B	'LEA'
+str_AND		DC.B	'AND'
+str_ORI		DC.B	'ORI'
+str_EOR		DC.B	'EOR'
+str_EORI	DC.B	'EORI'
+str_NOT		DC.B	'NOT'
+str_ASL		DC.B	'ASL'
+str_LSR		DC.B	'LSR'
+str_BTST	DC.B	'BTST'
+str_CMP		DC.B	'CMP'
+str_CMPA	DC.B	'CMPA'
+str_CMPI	DC.B	'CMPI'
+str_BCC		DC.B	'BCC'
+str_BEQ		DC.B	'BEQ'
+str_BLT		DC.B	'BLT'
+str_BNE		DC.B	'BNE'
+str_BHI		DC.B	'BHI'
+str_JSR		DC.B	'JSR'
+str_RTS	DC.B	'RTS'
+
+   
+*------TABLE FOR OP-CODE BRANCH-----------------------------------------------------
+
+OPCODE_JMPTABLE		
+	JMP	code0000	* Bit manipulation/MOVEP/Immediate
+	JMP	code0001	* Move Byte
+	JMP	code0010	* Move Long
+	JMP	code0011	* Move Word
+	JMP	code0100	* Miscellaneous
+	JMP	code0101	* ADDQ/SUBQ/Scc/DBcc
+	JMP	code0110	* BSR, BRA, Bcc
+	JMP	code0111	* MOVEQ
+	JMP	code1000	* OR/DIV/SBCD
+	JMP	code1001	* SUB/SUBX
+	JMP	code1010	* Unassigned
+	JMP	code1011	* CMP/EOR
+	JMP	code1100	* AND/MUL/ABCD/EXG
+	JMP	code1101	* ADD/ADDA/ADDX
+	JMP	code1110	* Shift/Rotate
+	JMP	code1111	* Special/Reserved
+
+*-----------------------------------------------------------------------------------------------------
+
+MOVEM_PRE	DC.B	'A0','A1','A2','A3','A4','A5','A6','A7','D7','D6','D5','D4','D3','D2','D1','D0'
+MOVEM_POST	DC.B	'D0','D1','D2','D3','D4','D5','D6','D7','A0','A1','A2','A3','A4','A5','A6','A7'
+UNKNOWN 	DC.B	'DATA',$0
+ADD 		DC.B	'ADD',$00
+ADDA    	DC.B	'ADDA',$00
+ADDI    	DC.B	'ADDI',$00
+AND 		DC.B	'AND',$00
+ANDI	    DC.B	'ANDI',$00
+ASL		    DC.B	'ASL',$00
+ASR		    DC.B	'ASR',$00
+BSR		    DC.B	'BSR',$00
+CLR		    DC.B	'CLR',$00
+CMP		    DC.B	'CMP',$00
+CMPA	    DC.B	'CMPA',$00
+CMPI	    DC.B	'CMPI',$00
+DATA	    DC.B	'DATA',$00
+EOR		    DC.B	'EOR',$00
+EORI	    DC.B	'EORI',$00
+EXG		    DC.B	'EXG',$00
+JMP		    DC.B	'JMP',$00
+JSR		    DC.B	'JSR',$00
+LEA		    DC.B	'LEA',$00
+LSR		    DC.B	'LSR',$00
+LSL		    DC.B	'LSL',$00
+MOVE	    DC.B	'MOVE',$00
+MOVEA	    DC.B	'MOVEA',$00
+MOVEM	    DC.B	'MOVEM',$00
+NEG		    DC.B	'NEG',$00
+NOP		    DC.B	'NOP',$00
+NOT		    DC.B	'NOT',$00
+OR		    DC.B	'OR',$00
+ORI		    DC.B	'ORI',$00
+ROL		    DC.B	'ROL',$00
+ROR		    DC.B	'ROR',$00
+RTS		    DC.B	'RTS',$00
+SUB		    DC.B	'SUB',$00
+SUBA	    DC.B	'SUBA',$00
+SUBI	    DC.B	'SUBI',$00
+   
+   
+*------TABLE FOR OP-CODE BRANCH-----------------------------------------------------
+
+OPCODE_JMPTABLE		
+	JMP	code0000	* Bit manipulation/MOVEP/Immediate
+	JMP	code0001	* Move Byte
+	JMP	code0010	* Move Long
+	JMP	code0011	* Move Word
+	JMP	code0100	* Miscellaneous
+	JMP	code0101	* ADDQ/SUBQ/Scc/DBcc
+	JMP	code0110	* BSR, BRA, Bcc
+	JMP	code0111	* MOVEQ
+	JMP	code1000	* OR/DIV/SBCD
+	JMP	code1001	* SUB/SUBX
+	JMP	code1010	* Unassigned
+	JMP	code1011	* CMP/EOR
+	JMP	code1100	* AND/MUL/ABCD/EXG
+	JMP	code1101	* ADD/ADDA/ADDX
+	JMP	code1110	* Shift/Rotate
+	JMP	code1111	* Special/Reserved
+
+*-----------------------------------------------------------------------------------------------------
+
+MOVEM_PRE	DC.B	'A0','A1','A2','A3','A4','A5','A6','A7','D7','D6','D5','D4','D3','D2','D1','D0'
+MOVEM_POST	DC.B	'D0','D1','D2','D3','D4','D5','D6','D7','A0','A1','A2','A3','A4','A5','A6','A7'
+UNKNOWN 	DC.B	'DATA',$0
+ADD 		DC.B	'ADD',$00
+ADDA    	DC.B	'ADDA',$00
+ADDI    	DC.B	'ADDI',$00
+AND 		DC.B	'AND',$00
+ANDI	    DC.B	'ANDI',$00
+ASL		    DC.B	'ASL',$00
+ASR		    DC.B	'ASR',$00
+BSR		    DC.B	'BSR',$00
+CLR		    DC.B	'CLR',$00
+CMP		    DC.B	'CMP',$00
+CMPA	    DC.B	'CMPA',$00
+CMPI	    DC.B	'CMPI',$00
+DATA	    DC.B	'DATA',$00
+EOR		    DC.B	'EOR',$00
+EORI	    DC.B	'EORI',$00
+EXG		    DC.B	'EXG',$00
+JMP		    DC.B	'JMP',$00
+JSR		    DC.B	'JSR',$00
+LEA		    DC.B	'LEA',$00
+LSR		    DC.B	'LSR',$00
+LSL		    DC.B	'LSL',$00
+MOVE	    DC.B	'MOVE',$00
+MOVEA	    DC.B	'MOVEA',$00
+MOVEM	    DC.B	'MOVEM',$00
+NEG		    DC.B	'NEG',$00
+NOP		    DC.B	'NOP',$00
+NOT		    DC.B	'NOT',$00
+OR		    DC.B	'OR',$00
+ORI		    DC.B	'ORI',$00
+ROL		    DC.B	'ROL',$00
+ROR		    DC.B	'ROR',$00
+RTS		    DC.B	'RTS',$00
+SUB		    DC.B	'SUB',$00
+SUBA	    DC.B	'SUBA',$00
+SUBI	    DC.B	'SUBI',$00
+   
    
 *------TABLE FOR OP-CODE BRANCH-----------------------------------------------------
 
