@@ -97,6 +97,9 @@ START
     ANDI.L  #$F0,(A2)
     ANDI    #$F0,(A2)
     ANDI    #$1234,(A2)
+<<<<<<< HEAD
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+=======
 >>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
 
 *----ORI---------
@@ -146,6 +149,7 @@ START
     CMPI.W     #1110,(A6)  
     CMPI       #$2000,D1 
     
+<<<<<<< HEAD
 
 *---ADD-----------------------------------------------
 	*---ADD.B
@@ -173,6 +177,8 @@ START
     ADD.W  D0,A1
     ADD.W  D0, $E111
     ADD.W  D0, $E1234560
+=======
+>>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
 
      END           START
 
