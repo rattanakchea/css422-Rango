@@ -87,7 +87,62 @@ START
     MOVEM.W D0-D5/D7/A0-A6,-(A7)    
     
          
+*----AND, ORI, EOR, EORI, NOT, CMP, CMPA, CMPI----
+    ANDI    #%10000111,D7
+    ANDI    #$FE00,$1234
+    ANDI.B  #$F0,(A2)+
+    ANDI.w  #$F0,-(A2) 
+    ANDI.L  #$F0,(A2)
+    ANDI    #$F0,(A2)
+    ANDI    #$1234,(A2)
 
+*----ORI---------
+    ORI.B #%00000011,(A0)+
+    ORI.B #%00000011,-(A0)
+    ORI.B #%00000011,(A0)
+    ORI.W #$F001,D0
+    ORI.L #$11111111,D0
+    
+*----EORI
+    EORI    #%10000111,D7
+    EORI    #$FE00,$1234
+    EORI.B  #$F0,(A2)+
+    EORI.w  #$F0,-(A2) 
+    EORI.L  #$F0,(A2)
+    EORI    #$F0,(A2)
+    EORI    #$123,(A2) 
+
+*----NOT
+    NOT       $FE00
+    NOT.B     (A2)+
+    NOT.w     -(A2) 
+    NOT.L     (A2)  
+    
+*---CMP
+    CMP     D0,D1
+    CMP     A1,D2
+    CMP     (A2)+,D3
+    CMP     -(A2),D3
+    CMP     (A3),D4
+    CMP     #$1002,D5
+    CMP     1110,D6
+
+*---CMPA
+    CMPA.L   A0,A1
+    CMPA.W   $1000,A1
+    CMPA.L   #$1000,A4
+    CMPA.W   (A2)+,A6
+    CMPA.L   D5,A2
+    CMPA.L   -(A2),A3
+    CMPA.L   (A2),A3
+*---CMPI
+ 
+    CMPI.B     #$12,(A4)
+    CMPI.W     #$1234,-(A3)
+    CMPI.L     #$1002,(A3)+
+    CMPI.W     #1110,(A6)  
+    CMPI       #$2000,D1 
+    
 
      END           START
 
