@@ -86,8 +86,34 @@ START
     MOVEM.W (A7)+,D0-D5/D7/A0-A6
     MOVEM.W D0-D5/D7/A0-A6,-(A7)    
     
-         
 
+
+*---ADD-----------------------------------------------
+	*---ADD.B
+    ADD.B  $48,D2
+    ADD.B  #$AA,D1
+    ADD.B  D1,(A6)+
+    ADD.B  D0,(A2)
+    ADD.B  D0,-(A0)
+    ADD.B  #$40,D2
+    ADD.B  D0, $E111
+    ADD.B  D0, $E1234560	
+
+*---ADD-----------------------------------------------
+	*---ADD.W
+	ADD.W  #101,A1
+    ADD.W  $48,D2
+    ADD.W  #$AA,D1
+    ADD.W  D1,(A6)+
+    ADD.W  D0,(A2)
+    ADD.W  D0,-(A0)
+    ADD.W  (A1), A2
+    ADD.W  (A1)+,A2
+    ADD.W  -(A1),A2
+    ADD.W  #$40,D2
+    ADD.W  D0,A1
+    ADD.W  D0, $E111
+    ADD.W  D0, $E1234560
 
      END           START
 
@@ -95,3 +121,8 @@ START
 
 
 
+
+*~Font name~Courier New~
+*~Font size~10~
+*~Tab type~0~
+*~Tab size~4~

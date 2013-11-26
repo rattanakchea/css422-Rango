@@ -147,6 +147,59 @@ LETTER_ER       DC.B    'INPUT CONTAINS INVALID ELEMENTS',CR,LF,$0
 INPUT           DS.L    32   *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
 BAD_DATA        DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR UNDEFINED DATAS
 GOOD_DATA       DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR PASSED DATAS   
+
+*=================jump tables for opcodes for the first 4 bits===============
+OPCODE_JMPTABLE
+	JMP		code0000	*bit manipulation
+	JMP		code0001	*Move Byte
+	JMP		code0010	*Move Long
+	JMP		code0011	*Move Word
+	JMP		code0100	*Miscellaneous
+	JMP		code0101	*ADDQ/SUBQ
+	JMP		code0110	*BSR, BRA, Bcc
+	JMP		code0111	*MOVEQ
+	JMP		code1000	*OR
+	JMP		code1001	*SUB
+	JMP		code1010	*Unassigned
+	JMP		code1011	*CMP/EOR
+	JMP		code1100	*AND/MUL/
+	JMP		code1101	*ADD/ADDA
+	JMP		code1110	*Shift/Rotate
+	JMP		code1111	*Reserved
+	
+	
+*===================== 29 OP-CODES  ==========================================
+str_MOVE	DC.B	'MOVE'
+str_MOVEA	DC.B	'MOVEA'
+str_MOVEM	DC.B	'MOVEM'
+str_ADD		DC.B	'ADD'
+str_ADDA	DC.B	'ADDA'
+str_ADDQ	DC.B	'ADDQ'
+str_SUB		DC.B	'SUB'
+str_SUBA	DC.B	'SUBA'
+str_SUBI	DC.B	'SUBI'
+str_MULU	DC.B	'MULU'
+str_DIVS	DC.B	'DIVS'
+str_LEA		DC.B	'LEA'
+str_AND		DC.B	'AND'
+str_ORI		DC.B	'ORI'
+str_EOR		DC.B	'EOR'
+str_EORI	DC.B	'EORI'
+str_NOT		DC.B	'NOT'
+str_ASL		DC.B	'ASL'
+str_LSR		DC.B	'LSR'
+str_BTST	DC.B	'BTST'
+str_CMP		DC.B	'CMP'
+str_CMPA	DC.B	'CMPA'
+str_CMPI	DC.B	'CMPI'
+str_BCC		DC.B	'BCC'
+str_BEQ		DC.B	'BEQ'
+str_BLT		DC.B	'BLT'
+str_BNE		DC.B	'BNE'
+str_BHI		DC.B	'BHI'
+str_JSR		DC.B	'JSR'
+str_RTS	DC.B	'RTS'
+
    
     END         START
 

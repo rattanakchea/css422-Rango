@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.13.01
-Created On: 11/20/2013 12:52:17 PM
+Created On: 11/26/2013 11:37:59 AM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      : 68K Disassember
@@ -18,68 +18,174 @@ Created On: 11/20/2013 12:52:17 PM
 00001000                            14  * Variable used in code
 00001000  =0000A000                 15  startAddr   EQU     $0000A000           ;require user to input the memory location lower bound
 00001000  =000FFFFF                 16  endAddr     EQU     $000FFFFF           ;require user to input the memory location upper bound
-00001000  =00000024                 17  dollar      EQU     $24                 ;ASCII $
-00001000  =0000000A                 18  LF          EQU     $0A                 ;ASCII value for Line feed
-00001000  =0000000D                 19  CR          EQU     $0D                 ;ASCII value for Carriage return
-00001000                            20  
-00001000                            21  *-----------Code for output-----------
-00001000  43F9 00001052             22  LOOP        LEA         MESSAGE,A1
-00001006  103C 000E                 23              MOVE.B      #14,D0
-0000100A  4E4F                      24              TRAP        #15              ;Display Message
-0000100C                            25             
-0000100C                            26  *-----------Code for input------------
-Line 27 ERROR: Symbol defined more than once
-0000100C  7202                      27  START       MOVE.L  #2, D1               ;
-0000100E  4E4F                      28              TRAP    #15                  ;Read string from keyboard
-00001010                            29                   
-00001010                            30  
-00001010                            31              *MOVE.B      #2,D0           Read String
-00001010                            32              *TRAP        #15             Read a number from keyboard into D1.l
-00001010                            33              *CMP.L       #0,D1           Compares D1 to number 0
-00001010                            34              *BEQ         DONE            Branch to DONE if they are equal
-00001010                            35             
-00001010  B2BC 00000010             36              CMP.L       #$10,D1          Compares D1 to 0
-00001016  6D00 0026                 37              BLT         INVALID         BTL branches if D1 is less than 0
-0000101A  B2BC 00000020             38              CMP.L       #$20,D1          Compares D1 to 1
-00001020  6E00 001C                 39              BGT         INVALID         BGT branches if D1 is greater than 9
-00001024                            40   
-00001024                            41  *--figure out what the number actually is--            
-00001024                            42              
-00001024  43F9 00001030             43              LEA     DISPLAY, A1
-0000102A  103C 000E                 44              MOVE.B  #14, D0
-0000102E  4E4F                      45              TRAP    #15            
-00001030                            46              
-00001030= 59 6F 75 20 65 6E ...     47  DISPLAY     DC.B    'You enter....', 0
-0000103E                            48             
-0000103E  43F9 00001094             49  INVALID     LEA         INV,A1
-00001044  103C 000E                 50              MOVE.B      #14,D0
-00001048  4E4F                      51              TRAP        #15
-0000104A  60B4                      52              BRA         LOOP
-0000104C                            53             
-0000104C  103C 0009                 54  DONE        MOVE.B      #9,D0
-00001050  4E4F                      55              TRAP        #15             Halt simulator
-00001052                            56                         
-00001052= 45 6E 74 65 72 20 ...     57  MESSAGE     DC.B        'Enter a number between 0000A000 and 000FFFFF, Enter 0 to finsih: ',0
-00001094= 54 68 61 74 20 69 ...     58  INV         DC.B        'That is not between 0000A000 and 000FFFFF.',CR,LF,0
-000010C1                            59   
-000010C1                            60               END         START
+00001000  =0000000D                 17  CR          EQU     $0D
+00001000  =0000000A                 18  LF          EQU     $0A 
+00001000                            19  
+00001000                            20  *-----------WELCOME MESSAGE-----------
+00001000  43F9 000010F6             21              LEA         WELCOME_MSG,A1 *LOAD WELCOME_MSG TO A1
+00001006  103C 000E                 22              MOVE.B      #14,D0         
+0000100A  4E4F                      23              TRAP        #15            *OUTPUT THE WELCOME_MSG             
+0000100C                            24             
+0000100C                            25  *----------INPUT THE STARTING ADDRESSS-------------------------          
+0000100C                            26  START_INPUT 
+0000100C  43F9 0000154F             27              LEA         START_PROMPT,A1 *LOAD WELCOME_MSG TO A1
+00001012  103C 000E                 28              MOVE.B      #14,D0         
+00001016  4E4F                      29              TRAP        #15              *OUTPUT THE WELCOME_MSG 
+00001018                            30              
+00001018                            31              * Get the input from the user
+00001018  43F9 00001654             32              LEA         INPUT, A1           * LOAD INPUT TO THE POINTER A1
+0000101E  103C 0002                 33                      MOVE.B                  #02, D0    * ALLOW TO READ INPUT
+00001022  4E4F                      34              TRAP    #15                         
+00001024  4EB9 00001054             35              JSR         ASCII_CONVERTER     *CONVERT THE INPUT TO HEX AND STORE IN D2  
+0000102A  2043                      36              MOVEA.L D3,A0           *STORE STARTING ADDRESS AT A1
+0000102C                            37  *----------INPUT THE ENDING ADDRESSS-------------------------          
+0000102C                            38  END_INPUT            
+0000102C  43F9 0000158A             39              LEA         END_PROMPT,A1 *LOAD WELCOME_MSG TO A1
+00001032  103C 000E                 40              MOVE.B      #14,D0         
+00001036  4E4F                      41              TRAP        #15              *OUTPUT THE WELCOME_MSG 
+00001038                            42              
+00001038  43F9 00001654             43              LEA         INPUT, A1           * LOAD INPUT TO THE POINTER A1
+0000103E  103C 0002                 44                      MOVE.B                  #02, D0    * ALLOW TO READ INPUT
+00001042  4E4F                      45              TRAP    #15                     
+00001044  3C7C 0010                 46              MOVEA.W #$10,A6   *ID TO RECOGNIZE THIS IS THE ENDING ADDRESS INPUT    
+00001048  4EB9 00001054             47              JSR         ASCII_CONVERTER     *CONVERT THE INPUT TO HEX AND STORE IN D2  
+0000104E  2243                      48              MOVEA.L D3,A1           *STORE STARTING ADDRESS AT A1
+00001050                            49  
+00001050                            50  *-----------DISASSEMBLY CODE ---------------------------------------
+00001050                            51  
+00001050                            52              
+00001050  4E72 2700                 53              STOP    #$2700 *STOP THE PROGRAM
+00001054                            54  *-----------ASCII CONVERT MACHINE----------------------------------
+00001054                            55  *CONVERT USER INPUT STORED IN ASCII CODE INTO HEX NUMBER AND STORE 
+00001054                            56  *   IT INTO D2
+00001054                            57  *A1 STORED THE POINTER OF USER INPUT
+00001054                            58  *D1 STORED THE LENGTH OF USER INPUT
+00001054                            59  ASCII_CONVERTER
+00001054  48E7 A000                 60                      MOVEM.L                 D0/D2,-(SP)    * LOAD DATA REGISTER INTO STACK
+00001058  4283                      61              CLR.L   D3                              * CLEAR ALL DATA STORED IN D2 BEFORE
+0000105A                            62  
+0000105A  B23C 0008                 63              CMP.B   #8, D1                  * COMPARE TO MAKE SURE THE INPUT LENGTH LESS THAN 8
+0000105E  6E00 0066                 64                      BGT                     LEN_ERROR       * THE LENGTH IS GREATER THAN 8, BRANCH TO ERROR
+00001062  B23C 0000                 65                      CMP.B                   #0, D1* COMPARE TO MAKE SURE THE INPUT LENGTH GREATER THAN 0
+00001066  6F00 005E                 66                      BLE                         LEN_ERROR    * THE LENGTH EQUAL 0, BRANCH TO ERROR
+0000106A                            67  
+0000106A                            68  *-----------USE THE LENGTH OF USER INPUT IN D1 AS A COUNTER FOR THIS LOOP---------
+0000106A                            69  ASCII_CONVERTER_LOOP*COMPARE EACH BYTE OF INPUT TO DEFINE IT AS 0-9 OR NOT         
+0000106A  E95B                      70                      ROL                     #$4, D3* shift one byte to the left to reserve next elements
+0000106C  1019                      71                      MOVE.B                  (A1)+, D0* MOVE THE BYTE FROM INPUT TO D0
+0000106E  B03C 0039                 72                      CMP.B                   #$39, D0* ASCII CODE (0-9) = (30-39), COMPARE IT TO 39
+00001072  6E00 0012                 73                      BGT                         LETTER        * BIGGER THAN 39, IT MAYBE A LETTER, BRANCH TO  
+00001076  B03C 0030                 74                      CMP.B                   #$30, D0* ASCII CODE (0-9) = (30-39), COMPARE IT TO 30
+0000107A  6D00 0062                 75                      BLT                         LETTER_ERROR* IF LESS THAN 30, RETURN ERROR WARNING
+0000107E  0400 0030                 76                      SUBI.B                  #$30, D0* ELSE THE INPUT IS VALID, SUBTRACT TO GET THE DECIMAL NUM
+00001082  6000 0032                 77                      BRA                         ASCII_DONE
+00001086                            78  
+00001086                            79  LETTER
+00001086  B03C 0066                 80                      CMP.B                   #$66, D0* IF ASCII NUM > 66(LOWER CASE F IN HEX), INVALID
+0000108A  6E00 0052                 81                      BGT                         LETTER_ERROR* RETURN WARNING MESSAGE
+0000108E  B03C 0061                 82                      CMP.B                   #$61, D0* IF 61>= VALUE, IT MAY BE A LOWER CASE ASCII CHARACTER 
+00001092  6C00 001A                 83                      BGE                         ASCII_LOWER_LET* BRANCH LOWER CASE 
+00001096                            84                      
+00001096                            85                      *HANDLING THE LOWER CASE ISSUE FOR ASCII CHARACTER
+00001096  B03C 0046                 86                      CMP.B                   #$46, D0* IF THE VALUE>46, IT IS INVALID
+0000109A  6E00 0042                 87                      BGT                         LETTER_ERROR* RETURN ERROR WARNING MESSAGE
+0000109E  B03C 0041                 88                      CMP.B                   #$41, D0* IF THE VALUE<41, IT IS INVALID
+000010A2  6D00 003A                 89                      BLT                         LETTER_ERROR* RETURN WARNING MESSAGE
+000010A6  0400 0037                 90                      SUBI.B                  #$37, D0* ELSE, IT IS VALID, SUBTRACT 37
+000010AA  6000 000A                 91                      BRA                         ASCII_DONE      
+000010AE                            92              
+000010AE                            93  ASCII_LOWER_LET
+000010AE  0400 0057                 94                      SUBI.B                  #$57, D0            *SUBTRACT 57 IF LOWER CASE CHARACTER
+000010B2  6000 0002                 95                      BRA                         ASCII_DONE          *BRANCH TO FINISH THE SUBROUTINE
+000010B6                            96              
+000010B6                            97  ASCII_DONE
+000010B6  8600                      98                      OR.B                    D0, D3        * OR the results into the return value
+000010B8  5341                      99                      SUBI    #$1,D1                  * DECREMENT THE LOOP COUNTER
+000010BA  B23C 0000                100                      CMP.B   #$0,D1                  * COMPARE IF COUNTER IS 0
+000010BE  66AA                     101                      BNE     ASCII_CONVERTER_LOOP* IF THE COUNTER IS NOT 0, BRANCH BACK THE LOOP
+000010C0  4CDF 0005                102                      MOVEM.L                 (SP)+,D0/D2            * POP OUT THE STACK
+000010C4  4E75                     103                      RTS                                         * BACK TO THE PROGRAM
+000010C6                           104              
+000010C6                           105              
+000010C6                           106  *--------------------------------------------------------------------------
+000010C6                           107  *THE LENGTH IS OUT OF BOUND, BRANCH BACK THE INPUT MESSAGE
+000010C6  43F9 00001603            108  LEN_ERROR       LEA         LENGTH_ER,A1    *LOAD LENGTH ERROR WARNING TO A1
+000010CC  103C 000E                109                  MOVE.B      #14,D0         
+000010D0  4E4F                     110                  TRAP        #15             *OUTPUT THE WELCOME_MSG 
+000010D2  BCFC 0010                111                  CMP.W       #$10,A6 
+000010D6  6600 FF34                112                  BNE         START_INPUT     *BRANCH BACK TO THE INPUT MESSAGE  
+000010DA  6000 FF50                113                  BRA         END_INPUT       *BRANCH BACK TO THE INPUT MESSAGE
+000010DE  43F9 00001631            114  LETTER_ERROR    LEA         LETTER_ER,A1    *LOAD LENGTH ERROR WARNING TO A1
+000010E4  103C 000E                115                  MOVE.B      #14,D0         
+000010E8  4E4F                     116                  TRAP        #15             *OUTPUT THE WELCOME_MSG 
+000010EA  BCFC 0010                117                  CMP.W       #$10,A6 
+000010EE  6600 FF1C                118                  BNE         START_INPUT     *BRANCH BACK TO THE INPUT MESSAGE  
+000010F2  6000 FF38                119                  BRA         END_INPUT       *BRANCH BACK TO THE INPUT MESSAGE    
+000010F6                           120  *====================================================================================================
+000010F6= 2D 2D 2D 2D 2D 2D ...    121  WELCOME_MSG     DC.B    '------------------------------------------------------------',CR,LF
+00001134= 2D 2D 2D 2D 2D 2D ...    122                  DC.B    '---------------============================---------------',CR,LF
+00001170= 2D 2D 2D 2D 2D 2D ...    123                  DC.B    '---------------=                            =--------------',CR,LF
+000011AD= 2D 2D 2D 2D 2D 2D ...    124                  DC.B    '---------------=      ==================     =-------------',CR,LF
+000011EA= 2D 2D 2D 2D 2D 2D ...    125                  DC.B    '---------------=      =                 =     =------------',CR,LF
+00001227= 2D 2D 2D 2D 2D 2D ...    126                  DC.B    '---------------=      =                  =     =-----------',CR,LF
+00001264= 2D 2D 2D 2D 2D 2D ...    127                  DC.B    '---------------=      =                   =     =-----------',CR,LF
+000012A2= 2D 2D 2D 2D 2D 2D ...    128                  DC.B    '---------------=      =                   =     =-----------',CR,LF
+000012E0= 2D 2D 2D 2D 2D 2D ...    129                  DC.B    '---------------=      =                   =     =-----------',CR,LF
+0000131E= 2D 2D 2D 2D 2D 2D ...    130                  DC.B    '---------------=      =                  =     =------------',CR,LF
+0000135C= 2D 2D 2D 2D 2D 2D ...    131                  DC.B    '---------------=      ==================     =-------------',CR,LF
+00001399= 2D 2D 2D 2D 2D 2D ...    132                  DC.B    '---------------=                             =--------------',CR,LF
+000013D7= 2D 2D 2D 2D 2D 2D ...    133                  DC.B    '---------------=      ================     =----------------',CR,LF
+00001415= 2D 2D 2D 2D 2D 2D ...    134                  DC.B    '---------------=      =               =     =---------------',CR,LF
+00001453= 2D 2D 2D 2D 2D 2D ...    135                  DC.B    '---------------=      =                =     =--------------',CR,LF
+00001491= 2D 2D 2D 2D 2D 2D ...    136                  DC.B    '---------------=      =                 =     =-------------',CR,LF
+000014CF= 2D 2D 2D 2D 2D 2D ...    137                  DC.B    '---------------=      =                  =     =------------',CR,LF 
+0000150D= 2D 2D 2D 2D 2D 2D ...    138                  DC.B    '-------------WELCOME TO 68K FINAL PROJECT-------------------',CR,LF,$0
+0000154C= 0D 0A 00                 139                  DC.B    '',CR,LF,$0
+0000154F= 50 4C 45 41 53 45 ...    140  START_PROMPTDC.B    'PLEASE INPUT THE STARTING ADDRESS GREATER THAN $0000A000: ',$0  
+0000158A= 50 4C 45 41 53 45 ...    141  END_PROMPT      DC.B'PLEASE INPUT THE ENDING ADDRESS LESS THAN $000FFFFF: ',$0
+000015C0= 54 41 50 20 45 4E ...    142  CONTINUE_PRODC.B    'TAP ENTER KEY TO CONTINUE... ',$0 
+000015DE= 44 4F 4E 45 21 20 ...    143  PRO_DONE    DC.B    'DONE! THANKS FOR RUNING THIS PROGRAM',$0    
+00001603= 54 48 45 20 53 49 ...    144  LENGTH_ER       DC.B    'THE SIZE OF MEMORY LOCATION IS OUT OF RANGE',CR,LF,$0
+00001631= 49 4E 50 55 54 20 ...    145  LETTER_ER       DC.B    'INPUT CONTAINS INVALID ELEMENTS',CR,LF,$0
+00001653                           146  
+00001654                           147  INPUT           DS.L    32   *ALLOCATE TWO LONG SPACE FOR STARTING AND ENDING WORDS
+000016D4= 00 00 00 00 00 00 ...    148  BAD_DATA        DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR UNDEFINED DATAS
+000017D4= 00 00 00 00 00 00 ...    149  GOOD_DATA       DCB.B   256,00  *RESERVE 256 BLOCKS OF BYTE FOR PASSED DATAS   
+000018D4                           150  
+000018D4= 4D 4F 56 45              151  str_MOVE    DC.B    'MOVE'
+000018D8                           152  
+000018D8                           153     
+000018D8                           154      END         START
 
-1 error detected
+No errors detected
 No warnings generated
 
 
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
+ASCII_CONVERTER     1054
+ASCII_CONVERTER_LOOP  106A
+ASCII_DONE          10B6
+ASCII_LOWER_LET     10AE
+BAD_DATA            16D4
+CONTINUE_PRO        15C0
 CR                  D
-DISPLAY             1030
-DOLLAR              24
-DONE                104C
 ENDADDR             FFFFF
-INV                 1094
-INVALID             103E
+END_INPUT           102C
+END_PROMPT          158A
+GOOD_DATA           17D4
+INPUT               1654
+LENGTH_ER           1603
+LEN_ERROR           10C6
+LETTER              1086
+LETTER_ER           1631
+LETTER_ERROR        10DE
 LF                  A
-LOOP                1000
-MESSAGE             1052
+PRO_DONE            15DE
 START               1000
 STARTADDR           A000
+START_INPUT         100C
+START_PROMPT        154F
+STR_MOVE            18D4
+WELCOME_MSG         10F6
