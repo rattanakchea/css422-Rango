@@ -143,6 +143,62 @@ START
     CMPI.W     #1110,(A6)  
     CMPI       #$2000,D1 
     
+    *MOVE.L      #%101, D0
+    ASL.B       #1, D0
+    ASL.W       #1, D0
+    ASL.L       #1, D0
+    
+    *MOVE.L      #4, D1
+    ASL.B       D1, D0
+    ASL.W       D1, D0
+    ASL.L       D1, D0
+    
+***************LSR******************************
+	LSR.B		#1, D0
+	LSR.W	#1, D0
+	LSR.L		#1, D0
+
+	LSR.B		D1, D0
+	LSR.W	D1, D0
+	LSR.L		D1, D0
+
+****************BTST****************************
+	*MOVEA.L	#$FFFF, A0
+	BTST.L	D1, D0
+	BTST.B	D1, (A0)
+	BTST.B	D1, (A0)+
+	BTST.B	D1, -(A0)
+	BTST.B	D1, $FFFF
+	BTST.B	D1, $0000A000
+
+	BTST.L	#1, D0
+	BTST.B	#1, (A0)
+	BTST.B	#1, (A0)+
+	BTST.B	#1, -(A0)
+	BTST.B	#1, $FFFF
+	BTST.B	#1, $0000A0000
+	
+*****************Bcc******************************
+    	BCC     SomeLabel
+    	BCS     SomeLabel
+    	BEQ     SomeLabel
+	BNE     SomeLabel
+	BGE     SomeLabel
+    	BGT     SomeLabel
+    	BHI     SomeLabel
+    	BLE     SomeLabel
+    	BLS     SomeLabel
+    	BLT     SomeLabel
+    	BMI     SomeLabel
+    	BPL     SomeLabel
+    	BVS     SomeLabel
+    	BVC     SomeLabel
+    
+****************JSR and RTS************************
+    	JSR     test
+test 	RTS 
+    
+someLabel
 
      END           START
 
