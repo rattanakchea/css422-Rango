@@ -85,9 +85,6 @@ START
     MOVEM.L (A5),D0-D2/D5-D7/A0-A3/A6
     MOVEM.W (A7)+,D0-D5/D7/A0-A6
     MOVEM.W D0-D5/D7/A0-A6,-(A7)    
-    
-<<<<<<< HEAD
-=======
          
 *----AND, ORI, EOR, EORI, NOT, CMP, CMPA, CMPI----
     ANDI    #%10000111,D7
@@ -97,13 +94,6 @@ START
     ANDI.L  #$F0,(A2)
     ANDI    #$F0,(A2)
     ANDI    #$1234,(A2)
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
-=======
->>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
-=======
->>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
 
 *----ORI---------
     ORI.B #%00000011,(A0)+
@@ -152,11 +142,10 @@ START
     CMPI.W     #1110,(A6)  
     CMPI       #$2000,D1 
     
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-*---ADD-----------------------------------------------
-	*---ADD.B
+************Rattanak: ADDA, ADDQ, SUB, SUBA,SUBI, MULU, MULS, LEA **********
+*---ADD---------------------------------------------------------------------
+*---ADD.B
     ADD.B  $48,D2
     ADD.B  #$AA,D1
     ADD.B  D1,(A6)+
@@ -165,10 +154,8 @@ START
     ADD.B  #$40,D2
     ADD.B  D0, $E111
     ADD.B  D0, $E1234560	
-
-*---ADD-----------------------------------------------
-	*---ADD.W
-	ADD.W  #101,A1
+*---ADD.W
+    ADD.W  #101,A1
     ADD.W  $48,D2
     ADD.W  #$AA,D1
     ADD.W  D1,(A6)+
@@ -181,12 +168,71 @@ START
     ADD.W  D0,A1
     ADD.W  D0, $E111
     ADD.W  D0, $E1234560
-=======
->>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
-=======
->>>>>>> ab5f71ba70428eebb8e4085151ae845ea5d141e9
+*---ADDA
+    ADDA.W  #101,A1
+    ADD.W  D0,A1
+    ADD.W  D0, $E111
+    ADD.W  D0, $E1234560
+    ADDA.L  #101,A1
+    ADD.L  #$101,A1
+*---ADDI
+    ADDI.B  #101,D1
+    ADDI.B  #10,D1
+    ADDI.W  #$101,D1
+    ADDI.W  #10, $E111
+    ADDI.W  #10, $E1234560
+    ADDI.L  #$101,D1
+*---ADDQ
+    ADDQ.B  #1,D1
+    ADDQ.B  #1,D1
+    ADDQ.W  #$1,D1
+    ADDQ.W  #1, $E111
+    ADDQ.W  #1, $E1234560
+    ADDQ.L  #$1,D1
+*---SUB
+    SUB.B  #1,D1
+    SUB.B  #1,D1
+    SUB.W  #$1,D1
+    SUB.W  #1, $E111
+    SUB.W  #1, $E1234560
+    SUB.L  #$1,D1
+*---SUBA
+    SUBA.W  A1,A1
+    SUBA.W  D1,A2
+    SUBA.W  #$1,A3
+    SUBA.W  #1, A1
+    SUBA.L  #$1,A2
+*---SUBI
+    SUBI.B  #1,D1
+    SUBI.B  #1,$1234
+    SUBI.W  #1,$1234
+    SUBI.W  #1,D1
+    SUBI.W  #$1,D1
+    SUBI.W  #1, $1234
+    SUBI.L  #$1, $1234
+*---MULU
+    MULU.W  #1,D1
+    MULU.W  D0,D1
+    MULU.W  #$00001,D0
+    MULU.W  #$1,D1
+    MULU.W  D0, D1
+*---MULS
+    MULS.W  #1,D1
+    MULS.W  D0,D1
+    MULS.W  #$00001,D0
+    MULS.W  #$1,D1
+    MULS.W  D0, D1
+*---LEA
+    LEA.L  $1000,A0
+    LEA  $1001,A0
+    LEA  $00001,A1
+    
+    
+*****************Chamnap: ASL, LSR, BTST, Bcc, JSR, RTS***************
 
      END           START
+
+
 
 
 
