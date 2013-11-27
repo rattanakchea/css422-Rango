@@ -1,4 +1,3 @@
-
 *-----------------------------------------------------------
 * Title      : 68K test
 * Written by : Team Rango
@@ -287,7 +286,6 @@ START
 test 	RTS 
     
 someLabel
-=======
 ************Rattanak: ADDA, ADDQ, SUB, SUBA,SUBI, MULU, MULS, LEA **********
 *---ADD---------------------------------------------------------------------
 *---ADD.B
@@ -460,8 +458,8 @@ someLabel
     	BCC     SomeLabel
     	BCS     SomeLabel
     	BEQ     SomeLabel
-	BNE     SomeLabel
-	BGE     SomeLabel
+	    BNE     SomeLabel
+	    BGE     SomeLabel
     	BGT     SomeLabel
     	BHI     SomeLabel
     	BLE     SomeLabel
@@ -474,10 +472,8 @@ someLabel
     
 ****************JSR and RTS************************
     	JSR     test
-test 	RTS 
-    
-someLabel
-=======
+*test 	RTS 
+
 ************Rattanak: ADDA, ADDQ, SUB, SUBA,SUBI, MULU, MULS, LEA **********
 *---ADD---------------------------------------------------------------------
 *---ADD.B
@@ -564,14 +560,3 @@ someLabel
 
 
      END           START
-
-
-
-
-
-
-*~Font name~Courier New~
-*~Font size~10~
-*~Tab type~0~
-*~Tab size~4~
->>>>>>> ad9b99cee2b5aa541551c6db23fb873071b08a77
