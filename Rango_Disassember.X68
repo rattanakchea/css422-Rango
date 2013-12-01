@@ -8,7 +8,7 @@
 *           output the disassembled code to the display.
 *-----------------------------------------------------------
   
-            ORG    $1000
+           ORG    $1000
 START:                  ; first instruction of program
 
 * Variable used in code
@@ -392,3 +392,8 @@ SUBI	    DC.B	'SUBI',$00
 
 
 
+
+*~Font name~Courier New~
+*~Font size~10~
+*~Tab type~0~
+*~Tab size~4~
